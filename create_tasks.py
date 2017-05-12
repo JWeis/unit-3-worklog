@@ -20,3 +20,4 @@ class Task:
                 'Task Name': task_name,
                 'Task Notes': task_notes,
                 'Time Spent': time_spent})
+

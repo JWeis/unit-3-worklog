@@ -1,4 +1,5 @@
 import csv
+import re
 
 
 class GetTask:
@@ -12,37 +13,55 @@ class GetTask:
         return (self.rows)
 
     def available_dates(self):
+        output = []
         for row in self.rows[:]:
-            print(row['Date'])
+            if row['Date'] not in output:
+                output.append(row['Date'])
+            else:
+                continue
+        return output
 
     def by_date(self, date):
-        print("\nTask by date created\n")
+        output = []
         for row in self.rows[:]:
             check_date = row['Date']
             if check_date == date:
-                return row
+                output.append(row)
+        return output
+
+    def av_times(self):
+        output = []
+        for row in self.rows[:]:
+            if row['Time Spent'] not in output:
+                output.append(row['Time Spent'])
+            else:
+                continue
+        return output
 
     def by_time_spent(self, time_spent):
-        print("\nTask by time spent\n")
-        print(self.rows[0])
         time_spent = str(time_spent)
-        for i in range(1, len(self.rows)):
-            if time_spent == self.rows[i][3]:
-                print (self.rows[i], '\n')
+        output = []
+        for row in self.rows[:]:
+            check_time = row['Time Spent']
+            if check_time == time_spent:
+                output.append(row)
+        return output
 
     def exact_match(self, string):
-        string_list = string.split()
         output = []
-        for a in range(len(string_list)):
-            for i in range(len(self.rows)):
-                if string_list[a] in self.rows[i][i]:
-                    output.append(self.rows[i])
-                else: print('no matches')
-        print(output)
+        for row in self.rows[:]:
+            if string in row['Task Name']:
+                output.append(row)
+            if string in row['Task Notes']:
+                output.append(row)
+        return output
 
-james = GetTask("Jim_work_log.csv")
+    def pattern_match(self, pattern):
+        output = []
+        for row in self.rows[:]:
+            task_search = re.search(r'\b' + pattern + r'\b', row['Task Name'], re.I|re.VERBOSE)
+            notes_search = re.search(r'\b' + pattern + r'\b', row['Task Notes'], re.I|re.VERBOSE)
+            if task_search or notes_search:
+                output.append(row)
+        return output
 
-james.available_dates()
-james.by_date('05/12/2017')
-
-#test = james.print_all()
