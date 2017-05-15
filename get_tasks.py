@@ -3,9 +3,8 @@ import re
 
 
 class GetTask:
-    def __init__(self, filename):
-        self.filename = filename
-        self.data = open(filename, 'r')
+    def __init__(self):
+        self.data = open('work_log.csv', 'r')
         self.task_reader = csv.DictReader(self.data, delimiter=',')
         self.rows = list(self.task_reader)
 
