@@ -20,8 +20,10 @@ class Task:
                 'Task Notes': task_notes,
                 'Time Spent': time_spent})
 
-    def update_task(self):
-        pass
+    def update_task(self, task, old_field, new_field):
+        with open('work_log.csv', '+') as csvfile:
+            get_task = task
+            
 
     def del_task(self):
         pass
